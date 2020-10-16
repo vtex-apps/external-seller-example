@@ -1,15 +1,16 @@
 {
-  "name": "service-example",
+  "name": "external-seller-example",
   "vendor": "vtex",
-  "version": "0.1.1",
-  "title": "Service Example",
-  "description": "Reference app for VTEX IO Services",
+  "version": "0.0.1",
+  "title": "External Seller Example",
+  "description": "Reference app for External Seller integration",
   "mustUpdateAt": "2018-01-04",
   "categories": [],
   "dependencies": {},
   "builders": {
     "node": "6.x",
-    "docs": "0.x"
+    "docs": "0.x",
+    "graphql": "1.x"
   },
   "scripts": {
     "prereleasy": "bash lint.sh"
@@ -19,9 +20,26 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "httpstat.us",
-        "path": "*"
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/catalog/*"
       }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/catalog_system/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "api.vtex.com",
+        "path": "/*"
+      }
+    },
+    {
+      "name": "suggestions"
     },
     {
       "name": "colossus-fire-event"

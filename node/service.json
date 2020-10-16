@@ -6,8 +6,20 @@
   "maxReplicas": 4,
   "workers": 1,
   "routes": {
-    "status": {
-      "path": "/_v/status/:code",
+    "fullfilmentSimulation": {
+      "path": "/my-seller/api/pvt/orderForms/simulation",
+      "public": true
+    },
+    "orderPlacement": {
+      "path": "/my-seller/api/pvt/orders",
+      "public": true
+    },
+    "orderDispatching": {
+      "path": "/my-seller/api/pvt/orders/:orderId",
+      "public": true
+    },
+    "skuSuggestion": {
+      "path": "/my-seller/suggestion/:sellerId/:sellerSkuId",
       "public": true
     }
   }
