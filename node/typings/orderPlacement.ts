@@ -22,13 +22,13 @@ interface ClientProfileData {
   documentType: string
   document: string
   phone: string
-  corporateName?: string
-  tradeName?: string
-  corporateDocument?: string
-  stateInscription: string
-  corporatePhone: string
+  corporateName: string | null
+  tradeName: string | null
+  corporateDocument: string | null
+  stateInscription: string | null
+  corporatePhone: string | null
   isCorporate: boolean
-  userProfileId?: string
+  userProfileId: string | null
 }
 
 interface Item {
