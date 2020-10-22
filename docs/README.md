@@ -1,4 +1,4 @@
-# External Seller Example
+# [WIP] External Seller Example
 
 ## GraphQL queries
 ### Get list of sellers
