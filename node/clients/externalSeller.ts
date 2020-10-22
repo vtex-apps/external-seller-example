@@ -11,50 +11,27 @@ import {
 
 export class ExternalSeller extends ExternalClient {
   constructor(ctx: IOContext, options?: InstanceOptions) {
-    super(`baseURL`, ctx, {
+    super(`baseUrl`, ctx, {
       ...options,
     })
   }
 
-  public fullfilmentSimulation(_: SimulationInput) {
+  public fullfilmentSimulation(input: SimulationInput) {
+    console.log(input)
     const body: SimulationResponse = {
       country: 'BRA',
       items: [
         {
-          attachmentOfferings: [
-            {
-              name: 'Customization',
-              required: true,
-              schema: {
-                Name: {
-                  maximumNumberOfCharacters: 20,
-                  domain: [],
-                },
-                Number: {
-                  maximumNumberOfCharacters: 20,
-                  domain: [],
-                },
-              },
-            },
-          ],
-          id: '2000037',
-          listPrice: 67203,
+          id: 'rayban00012',
+          listPrice: 0,
           measurementUnit: 'un',
-          merchantName: 'mySeller1',
-          offerings: [
-            {
-              type: 'Warranty',
-              id: '5',
-              name: '1 year warranty',
-              price: 10000,
-            },
-          ],
-          price: 67203,
+          merchantName: null,
+          price: 10,
           priceTags: [],
           priceValidUntil: null,
           quantity: 1,
           requestIndex: 0,
-          seller: '1',
+          seller: 'externalsellertest',
           unitMultiplier: 1,
         },
       ],
@@ -63,49 +40,7 @@ export class ExternalSeller extends ExternalClient {
           itemIndex: 0,
           quantity: 1,
           shipsTo: ['BRA'],
-          slas: [
-            {
-              id: 'Regular',
-              deliveryChannel: 'delivery',
-              name: 'Regular Delivery',
-              price: 846,
-              shippingEstimate: '19bd',
-            },
-            {
-              id: 'Curbside pickup',
-              deliveryChannel: 'pickup-in-point',
-              name: 'Curbside pickup',
-              shippingEstimate: '0bd',
-              price: 0,
-              availableDeliveryWindows: [
-                {
-                  startDateUtc: '2013-02-04T08:00:00+00:00',
-                  endDateUtc: '2013-02-04T13:00:00+00:00',
-                  price: 0,
-                },
-              ],
-              pickupStoreInfo: {
-                isPickupStore: true,
-                friendlyName: 'Santa Felicidade',
-                address: {
-                  addressType: 'pickup',
-                  receiverName: null,
-                  addressId: '548304ed-dd40-4416-b12b-4b32bfa7b1e0',
-                  postalCode: '82320-040',
-                  city: 'Curitiba',
-                  state: 'PR',
-                  country: 'BRA',
-                  street: 'Rua Domingos Strapasson',
-                  number: '100',
-                  neighborhood: 'Santa Felicidade',
-                  complement: 'Loja 10',
-                  reference: null,
-                  geoCoordinates: [-49.334934, -25.401705],
-                },
-                additionalInfo: '',
-              },
-            },
-          ],
+          slas: [],
           stockBalance: 199,
           deliveryChannels: [
             {
@@ -119,7 +54,6 @@ export class ExternalSeller extends ExternalClient {
           ],
         },
       ],
-      postalCode: '80250000',
     }
 
     return body

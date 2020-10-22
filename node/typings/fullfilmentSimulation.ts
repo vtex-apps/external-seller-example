@@ -2,16 +2,16 @@ export interface SimulationResponse {
   country: string
   items: SimulationItem[]
   logisticsInfo: LogisticsInfo[]
-  postalCode: string
+  postalCode?: string
 }
 
 interface SimulationItem {
-  attachmentOfferings: AttachmentOffering[]
+  attachmentOfferings?: AttachmentOffering[]
   id: string
   listPrice: number
   measurementUnit: string
-  merchantName: string
-  offerings: Offering[]
+  merchantName: string | null
+  offerings?: Offering[]
   price: number
   priceTags: any[]
   priceValidUntil: null
@@ -48,7 +48,7 @@ interface LogisticsInfo {
   itemIndex: number
   quantity: number
   shipsTo: string[]
-  slas: Sla[]
+  slas: Sla[] | []
   stockBalance: number
   deliveryChannels: DeliveryChannel[]
 }
