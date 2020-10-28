@@ -5,10 +5,10 @@ export interface SimulationResponse {
   postalCode?: string
 }
 
-interface SimulationItem {
+export interface SimulationItem {
   attachmentOfferings?: AttachmentOffering[]
   id: string
-  listPrice: number
+  listPrice?: number
   measurementUnit: string
   merchantName: string | null
   offerings?: Offering[]
@@ -106,6 +106,7 @@ export interface SimulationInput {
 
 interface CartItem {
   id: string
+  seller: string
   sku: string
   ean: string
   refId: string | null

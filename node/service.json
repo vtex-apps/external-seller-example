@@ -7,7 +7,11 @@
   "workers": 1,
   "routes": {
     "fullfilmentSimulation": {
-      "path": "/my-seller/api/pvt/orderForms/simulation",
+      "path": "/my-seller/pvt/orderForms/simulation",
+      "public": true
+    },
+    "realTimeSimulation": {
+      "path": "/my-seller/pvt/orderForms/simulation/realtime",
       "public": true
     },
     "orderPlacement": {

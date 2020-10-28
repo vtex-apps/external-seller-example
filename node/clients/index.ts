@@ -1,5 +1,4 @@
 import { IOClients } from '@vtex/api'
-
 import { Catalog, Suggestions } from '@vtex/clients'
 
 import { ExternalSeller } from './externalSeller'

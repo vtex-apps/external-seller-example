@@ -1,10 +1,4 @@
-import {
-  ClientsConfig,
-  LRUCache,
-  method,
-  Service,
-  ServiceContext,
-} from '@vtex/api'
+import { ClientsConfig, LRUCache, Service, ServiceContext } from '@vtex/api'
 
 import { Clients } from './clients'
 import { fullfilmentSimulation } from './handlers/fullfilmentSimulation'
@@ -47,15 +41,10 @@ export default new Service({
   clients,
   routes: {
     // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    fullfilmentSimulation: method({
-      POST: fullfilmentSimulation,
-    }),
-    orderPlacement: method({
-      POST: orderPlacement,
-    }),
-    skuSuggestion: method({
-      POST: skuSuggestion,
-    }),
+    fullfilmentSimulation,
+    orderPlacement,
+    skuSuggestion,
+    realTimeSimulation: fullfilmentSimulation,
   },
   graphql: {
     resolvers: {

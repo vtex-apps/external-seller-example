@@ -1,3 +1,4 @@
+import { getItemsInfoFromInput } from './../utils/simulationMock'
 import { ExternalClient, InstanceOptions, IOContext } from '@vtex/api'
 
 import {
@@ -17,24 +18,11 @@ export class ExternalSeller extends ExternalClient {
   }
 
   public fullfilmentSimulation(input: SimulationInput) {
-    console.log(input)
+    const items = getItemsInfoFromInput(input)
+
     const body: SimulationResponse = {
       country: 'BRA',
-      items: [
-        {
-          id: 'rayban00012',
-          listPrice: 0,
-          measurementUnit: 'un',
-          merchantName: null,
-          price: 10,
-          priceTags: [],
-          priceValidUntil: null,
-          quantity: 1,
-          requestIndex: 0,
-          seller: 'externalsellertest',
-          unitMultiplier: 1,
-        },
-      ],
+      items,
       logisticsInfo: [
         {
           itemIndex: 0,
@@ -54,6 +42,7 @@ export class ExternalSeller extends ExternalClient {
           ],
         },
       ],
+      postalCode: input.postalCode,
     }
 
     return body
