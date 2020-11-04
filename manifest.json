@@ -34,9 +34,19 @@
     {
       "name": "outbound-access",
       "attrs": {
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/oms/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
         "host": "api.vtex.com",
         "path": "/*"
       }
+    },
+    {
+      "name": "ShippingAction"
     },
     {
       "name": "suggestions"

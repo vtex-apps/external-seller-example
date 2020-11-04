@@ -1,10 +1,20 @@
-import { ClientsConfig, LRUCache, Service, ServiceContext } from '@vtex/api'
+import {
+  ClientsConfig,
+  LRUCache,
+  method,
+  Service,
+  ServiceContext,
+} from '@vtex/api'
 
 import { Clients } from './clients'
 import { fullfilmentSimulation } from './handlers/fullfilmentSimulation'
 import { orderPlacement } from './handlers/orderPlacement'
 import { skuSuggestion } from './handlers/skuSuggestion'
+import { invoice } from './handlers/invoice'
 import { createSellerOnMarketplace, getSellerList } from './resolvers/seller'
+import { dispatchOrder } from './handlers/orderDispatching'
+import { tracking } from './handlers/tracking'
+import { mkpOrderCancellation } from './handlers/orderCancellation'
 
 const TIMEOUT_MS = 800
 
@@ -40,11 +50,27 @@ declare global {
 export default new Service({
   clients,
   routes: {
-    // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    fullfilmentSimulation,
-    orderPlacement,
-    skuSuggestion,
-    realTimeSimulation: fullfilmentSimulation,
+    fullfilmentSimulation: method({
+      POST: fullfilmentSimulation,
+    }),
+    orderPlacement: method({
+      POST: orderPlacement,
+    }),
+    mkpCancellation: method({
+      POST: mkpOrderCancellation,
+    }),
+    orderDispatching: method({
+      POST: [dispatchOrder, invoice],
+    }),
+    skuSuggestion: method({
+      POST: skuSuggestion,
+    }),
+    invoice: method({
+      POST: invoice,
+    }),
+    trackingInfo: method({
+      POST: tracking,
+    }),
   },
   graphql: {
     resolvers: {

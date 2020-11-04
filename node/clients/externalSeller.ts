@@ -1,4 +1,4 @@
-import { getItemsInfoFromInput } from './../utils/simulationMock'
+import { NotificationInput } from '@vtex/clients'
 import { ExternalClient, InstanceOptions, IOContext } from '@vtex/api'
 
 import {
@@ -9,6 +9,7 @@ import {
   MarketplaceOrderInput,
   MarketplaceOrderResponse,
 } from '../typings/orderPlacement'
+import { getItemsInfoFromInput } from '../utils/simulationMock'
 
 export class ExternalSeller extends ExternalClient {
   constructor(ctx: IOContext, options?: InstanceOptions) {
@@ -28,7 +29,15 @@ export class ExternalSeller extends ExternalClient {
           itemIndex: 0,
           quantity: 1,
           shipsTo: ['BRA'],
-          slas: [],
+          slas: [
+            {
+              id: 'Regular',
+              deliveryChannel: 'delivery',
+              name: 'Regular Delivery',
+              price: 1000,
+              shippingEstimate: '7bd',
+            },
+          ],
           stockBalance: 199,
           deliveryChannels: [
             {
@@ -48,84 +57,52 @@ export class ExternalSeller extends ExternalClient {
     return body
   }
 
-  public placeOrder(_: MarketplaceOrderInput) {
+  public placeOrder(request: MarketplaceOrderInput) {
     const body: MarketplaceOrderResponse = {
-      marketplaceOrderId: '959311095',
-      marketplaceServicesEndpoint: 'https://marketplaceservicesendpoint/',
-      marketplacePaymentValue: 11080,
-      orderId: '123543123',
-      followUpEmail: '75c70c09dbb3498c9b3bbdee59bf0687@ct.vtex.com.br',
-      items: [
-        {
-          id: '2002495',
-          quantity: 1,
-          Seller: '1',
-          commission: 0,
-          freightCommission: 0,
-          price: 9990,
-          bundleItems: [],
-          priceTags: [],
-          attachments: [],
-          itemAttachment: {
-            name: 'test',
-            content: 'test',
-          },
-          measurementUnit: 'un',
-          unitMultiplier: 1,
-          isGift: false,
-        },
-      ],
-      clientProfileData: {
-        email: '5c77abaea35f4cb6824b9326942c00e5@ct.vtex.com.br',
-        firstName: 'JONAS',
-        lastName: 'ALVES DE OLIVEIRA',
-        documentType: 'cpf',
-        document: '32133239851',
-        phone: '1592712979',
-        corporateName: null,
-        tradeName: null,
-        corporateDocument: null,
-        stateInscription: null,
-        corporatePhone: null,
-        isCorporate: false,
-        userProfileId: null,
-      },
-      shippingData: {
-        address: {
-          addressType: 'Residencial',
-          receiverName: 'JONAS ALVES DE OLIVEIRA',
-          addressId: 'Casa',
-          postalCode: '13476103',
-          city: 'Americana',
-          state: 'SP',
-          country: 'BRA',
-          street: 'JOÃO DAMÁZIO GOMES',
-          number: '121',
-          neighborhood: 'SÃO JOSÉ',
-          complement: null,
-          reference: 'Bairro Praia Azul / Posto de Saúde 17',
-          geoCoordinates: [],
-        },
-        logisticsInfo: [
-          {
-            itemIndex: 0,
-            selectedSla: 'Normal',
-            lockTTL: '8d',
-            shippingEstimate: '5d',
-            price: 1090,
-            deliveryWindow: null,
-          },
-        ],
-      },
-      paymentData: null,
+      ...request,
+      orderId: '123456',
+      followUpEmail: 'fabiana.fonseca@vtex.com.br',
     }
 
     return body
   }
 
-  public dispatchOrder(orderId: string, marketplaceOrderId: string) {
+  public async dispatchOrder(orderId: string, marketplaceOrderId: string) {
     const body: OrderDispatch = {
-      date: '2014-10-06 18:52:00',
+      date: new Date().toISOString(),
+      marketplaceOrderId,
+      orderId,
+      receipt: null,
+    }
+
+    return body
+  }
+
+  public async invoiceOrder(_: string) {
+    const invoiceData: NotificationInput = {
+      type: 'Output',
+      invoiceNumber: 'NFe-00001',
+      issuanceDate: '2020-11-21T00:00:00',
+      invoiceValue: 38500,
+      invoiceUrl: 'https://7dfd0931fce9d4b74d20fd70d48eb714.m.pipedream.net',
+      courier: '',
+      trackingNumber: '',
+      trackingUrl: '',
+      items: [
+        {
+          id: '345117',
+          quantity: 1,
+          price: 9003,
+        },
+      ],
+    }
+
+    return invoiceData
+  }
+
+  public async cancelOrder(orderId: string, marketplaceOrderId: string) {
+    const body = {
+      date: '2020-11-02 18:52:00',
       marketplaceOrderId,
       orderId,
       receipt: 'e39d05f9-0c54-4469-a626-8bb5cff169f8',
@@ -139,5 +116,5 @@ interface OrderDispatch {
   date: string
   marketplaceOrderId: string
   orderId: string
-  receipt: string
+  receipt: string | null
 }

@@ -1,6 +1,6 @@
 import { json } from 'co-body'
 
-export async function dispatchOrder(ctx: Context) {
+export async function dispatchOrder(ctx: Context, next: () => Promise<any>) {
   const {
     clients: { externalSeller },
     vtex: {
@@ -10,9 +10,11 @@ export async function dispatchOrder(ctx: Context) {
     },
   } = ctx
 
-  const marketplaceOrderId = await json(ctx.req)
+  const { marketplaceOrderId } = await json(ctx.req)
 
   ctx.body = externalSeller.dispatchOrder(orderId as string, marketplaceOrderId)
-
+  ctx.state.body = marketplaceOrderId
   ctx.status = 200
+
+  await next()
 }

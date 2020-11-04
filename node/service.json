@@ -10,20 +10,28 @@
       "path": "/my-seller/pvt/orderForms/simulation",
       "public": true
     },
-    "realTimeSimulation": {
-      "path": "/my-seller/pvt/orderForms/simulation/realtime",
-      "public": true
-    },
     "orderPlacement": {
-      "path": "/my-seller/api/pvt/orders",
+      "path": "/my-seller/pvt/orders",
       "public": true
     },
     "orderDispatching": {
-      "path": "/my-seller/api/pvt/orders/:orderId",
+      "path": "/my-seller/pvt/orders/:orderId/fulfill",
+      "public": true
+    },
+    "mkpCancellation": {
+      "path": "/my-seller/pvt/orders/:orderId/cancel",
       "public": true
     },
     "skuSuggestion": {
       "path": "/my-seller/suggestion/:sellerId/:sellerSkuId",
+      "public": true
+    },
+    "invoice": {
+      "path": "/my-seller/oms/invoice/:marketplaceOrderId",
+      "public": true
+    },
+    "trackingInfo": {
+      "path": "/my-seller/oms/tracking/:marketplaceOrderId",
       "public": true
     }
   }

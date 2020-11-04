@@ -1,5 +1,5 @@
 import { IOClients } from '@vtex/api'
-import { Catalog, Suggestions } from '@vtex/clients'
+import { Catalog, OMS, Suggestions } from '@vtex/clients'
 
 import { ExternalSeller } from './externalSeller'
 
@@ -15,5 +15,9 @@ export class Clients extends IOClients {
 
   public get suggestion() {
     return this.getOrSet('suggestions', Suggestions)
+  }
+
+  public get oms() {
+    return this.getOrSet('oms', OMS)
   }
 }
