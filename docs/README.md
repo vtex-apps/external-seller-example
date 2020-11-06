@@ -77,7 +77,7 @@ mutation ($seller: SellerInput){
   "seller":  {
     "SellerId": "externalsellertest",
     "Email": "fabiana.fonseca@vtex.com.br",
-		"Name": "External Seller Test",
+    "Name": "External Seller Test",
     "FulfillmentEndpoint": "http://fabiana--appliancetheme.myvtex.com/my-seller",
     "CatalogSystemEndpoint": "http://fabiana--appliancetheme.myvtex.com/my-seller",
     "UseHybridPaymentOptions": false,
