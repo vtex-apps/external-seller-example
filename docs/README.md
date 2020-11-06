@@ -5,6 +5,19 @@ There are some routes that need to be implemented on the seller integration, in 
 
 Besides that, some routes were implemented to perform the other way communication, from the seller to the marketplace; an external seller integration has a two way communication. You can check in [this documentation](https://developers.vtex.com/vtex-developer-docs/docs/external-seller-integration-connector) the target of each request that can happen.
 
+So you can test it, you can follow the steps below:
+1. Link this application on a development workspace of a VTEX account;
+2. Open the GraphiQL link that is available when the app is successfully linked;
+3. Use the GraphQL IDE to create a seller on the VTEX account;
+4. Make a request to send a SKU suggestion to the marketplace (you can use the SKU Suggestion request in this Postman collection);
+5. Wait for the suggestion to pass through our matcher and appear as a Received SKU, on VTEX account's admin panel (Admin > Seller > Received SKUs);
+6. At this point, you can approve the SKU so it will appear on the marketplace's store. To do that, it's necessary to select both the category and the brand of the product. In case of not having, you can create it on the Catalog panel;
+7. Wait for the product to be indexed;
+8. Once it's already available on the store, you can test to buy it. By doing that, you'll automatically trigger all the order flow until the Order Placement. After that, you can test the routes that are exposed on this app regarding invoicing, tracking or cancellation.
+
+Feel free to contribute to this repo in case of identifying any problems or having suggestions to improve it! :rocket:
+
+
 ## Handlers
 
 | **Handler file**            | **Implemented Functions**                          | Use                                                                  |
