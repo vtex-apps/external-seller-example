@@ -1,4 +1,4 @@
-# [WIP] External Seller Example
+# External Seller Example
 
 ## Routes
 There are some routes that need to be implemented on the seller integration, in order for the marketplace to be able to communicate with the external services from the seller. For each route, there is a handler that is responsible for using the External Seller client to establish the communication with the external API. 
@@ -53,7 +53,7 @@ query {
 }
 ```
 
-> It's importat to know that there are other fields for each seller, you can check them out on the Documentation tab, on _GraphiQL_ or in the `schema.graphql`.
+> It's important to know that there are other fields for each seller, you can check them out on the Documentation tab, on _GraphiQL_ or in the `schema.graphql`.
 
 ## GraphQL mutations
 ### Creating a seller
