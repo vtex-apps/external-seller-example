@@ -4,7 +4,7 @@
  * by the seller.
  * @param {Context} ctx
  */
-export async function invoice(ctx: Context) {
+export async function invoiceOrder(ctx: Context) {
   const {
     clients: { externalSeller, oms },
     state: { body: marketplaceOrderId },
@@ -25,9 +25,6 @@ export async function invoice(ctx: Context) {
     )
     ctx.status = 200
   } catch (e) {
-    /* This cancel action is done by the seller */
-    await oms.cancelOrder(marketplaceOrderId)
-
     ctx.body = 'An error has ocurred while invoicing. Order was canceled.'
     ctx.status = 500
   }

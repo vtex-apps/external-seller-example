@@ -3,7 +3,7 @@ import { json } from 'co-body'
 import { MarketplaceOrderInput } from '../typings/orderPlacement'
 import { processAllOrderInputs } from '../utils/orderPlacement'
 
-export async function orderPlacement(ctx: Context) {
+export async function placeOrder(ctx: Context) {
   const body: MarketplaceOrderInput[] = await json(ctx.req)
 
   /*

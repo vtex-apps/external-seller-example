@@ -22,6 +22,10 @@
       "path": "/my-seller/pvt/orders/:orderId/cancel",
       "public": true
     },
+    "sellerCancellation": {
+      "path": "/my-seller/pvt/orders/seller/cancel",
+      "public": true
+    },
     "skuSuggestion": {
       "path": "/my-seller/suggestion/:sellerId/:sellerSkuId",
       "public": true

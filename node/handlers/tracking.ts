@@ -1,6 +1,6 @@
 import { json } from 'co-body'
 
-export async function tracking(ctx: Context) {
+export async function sendTrackingInformation(ctx: Context) {
   const {
     clients: { oms },
     vtex: {

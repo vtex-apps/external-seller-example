@@ -8,13 +8,16 @@ import {
 
 import { Clients } from './clients'
 import { fullfilmentSimulation } from './handlers/fullfilmentSimulation'
-import { orderPlacement } from './handlers/orderPlacement'
-import { skuSuggestion } from './handlers/skuSuggestion'
-import { invoice } from './handlers/invoice'
+import { placeOrder } from './handlers/orderPlacement'
+import { suggestSku } from './handlers/skuSuggestion'
+import { invoiceOrder } from './handlers/invoice'
 import { createSellerOnMarketplace, getSellerList } from './resolvers/seller'
 import { dispatchOrder } from './handlers/orderDispatching'
-import { tracking } from './handlers/tracking'
-import { mkpOrderCancellation } from './handlers/orderCancellation'
+import { sendTrackingInformation } from './handlers/tracking'
+import {
+  mkpOrderCancellation,
+  sellerOrderCancellation,
+} from './handlers/orderCancellation'
 
 const TIMEOUT_MS = 800
 
@@ -54,22 +57,25 @@ export default new Service({
       POST: fullfilmentSimulation,
     }),
     orderPlacement: method({
-      POST: orderPlacement,
+      POST: placeOrder,
     }),
     mkpCancellation: method({
       POST: mkpOrderCancellation,
     }),
+    sellerCancellation: method({
+      POST: sellerOrderCancellation,
+    }),
     orderDispatching: method({
-      POST: [dispatchOrder, invoice],
+      POST: dispatchOrder,
     }),
     skuSuggestion: method({
-      POST: skuSuggestion,
+      POST: suggestSku,
     }),
     invoice: method({
-      POST: invoice,
+      POST: invoiceOrder,
     }),
     trackingInfo: method({
-      POST: tracking,
+      POST: sendTrackingInformation,
     }),
   },
   graphql: {

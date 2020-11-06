@@ -23,3 +23,19 @@ export async function mkpOrderCancellation(ctx: Context) {
     ctx.status = 500
   }
 }
+
+export async function sellerOrderCancellation(ctx: Context) {
+  const {
+    clients: { oms },
+  } = ctx
+
+  const { marketplaceOrderId } = await json(ctx.req)
+
+  try {
+    ctx.body = await oms.cancelOrder(marketplaceOrderId)
+    ctx.status = 200
+  } catch (e) {
+    ctx.body = 'An error has occurred'
+    ctx.status = 500
+  }
+}

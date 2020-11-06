@@ -1,7 +1,7 @@
 import { SuggestionRequest } from '@vtex/clients'
 import { json } from 'co-body'
 
-export async function skuSuggestion(ctx: Context) {
+export async function suggestSku(ctx: Context) {
   const {
     clients: { catalog, suggestion },
     vtex: {
