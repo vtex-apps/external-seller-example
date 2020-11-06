@@ -1,9 +1,8 @@
 # External Seller Example
 
-## Routes
-There are some routes that need to be implemented on the seller integration, in order for the marketplace to be able to communicate with the external services from the seller. For each route, there is a handler that is responsible for using the External Seller client to establish the communication with the external API. 
+This is an example application to build an integration with an external seller. It's important to emphasize that it contains mocked data, but it can be used as the first step towards developing a fully function integration.
 
-Besides that, some routes were implemented to perform the other way communication, from the seller to the marketplace; an external seller integration has a two way communication. You can check in [this documentation](https://developers.vtex.com/vtex-developer-docs/docs/external-seller-integration-connector) the target of each request that can happen.
+In the following sections, we explain some details regarding the app that's been developed, such as the routes that are available and GraphQL queries and mutations. It's really important for you to read it and make sure that you fully understand what is mandatory to be implemented. We do encourage you to check [our documentation](https://developers.vtex.com/vtex-developer-docs/docs/external-seller-integration-connector) about creating an external seller connector.
 
 So you can test it, you can follow the steps below:
 1. Link this application on a development workspace of a VTEX account;
@@ -17,6 +16,10 @@ So you can test it, you can follow the steps below:
 
 Feel free to contribute to this repo in case of identifying any problems or having suggestions to improve it! :rocket:
 
+## Routes
+There are some routes that need to be implemented on the seller integration, in order for the marketplace to be able to communicate with the external services from the seller. For each route, there is a handler that is responsible for using the External Seller client to establish the communication with the external API. 
+
+Besides that, some routes were implemented to perform the other way communication, from the seller to the marketplace; an external seller integration has a two way communication. You can check in [this documentation](https://developers.vtex.com/vtex-developer-docs/docs/external-seller-integration-connector) the target of each request that can happen.
 
 ## Handlers
 
