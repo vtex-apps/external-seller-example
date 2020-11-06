@@ -84,7 +84,7 @@ mutation ($seller: SellerInput){
     "CSCIdentification": "externalsellertest",
     "ProductCommissionPercentage": 0,
     "FreightCommissionPercentage": 0
-	}
+  }
 }
 ```
 
