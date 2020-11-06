@@ -1,7 +1,9 @@
 # [WIP] External Seller Example
 
 ## Routes
-There are some routes that need to be implemented on the seller integration, in order for the marketplace to be able to communicate with the external services from the seller. For each route, there is a handler that is responsible for using the External Seller client to establish the communication with the external API. Besides that, some routes were implemented to perform the other way communication, from the seller to the marketplace; an external seller integration has a two way communication. You can check in [this documentation](https://developers.vtex.com/vtex-developer-docs/docs/external-seller-integration-connector) the target of each request that can happen.
+There are some routes that need to be implemented on the seller integration, in order for the marketplace to be able to communicate with the external services from the seller. For each route, there is a handler that is responsible for using the External Seller client to establish the communication with the external API. 
+
+Besides that, some routes were implemented to perform the other way communication, from the seller to the marketplace; an external seller integration has a two way communication. You can check in [this documentation](https://developers.vtex.com/vtex-developer-docs/docs/external-seller-integration-connector) the target of each request that can happen.
 
 ## Handlers
 
