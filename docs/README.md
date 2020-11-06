@@ -24,7 +24,9 @@ This boilerplate uses some utils functions in order to have a cleaner code.
 
 ## GraphQL queries
 ### Get list of sellers
-Returns the list of sellers that are registered on the account. Below you can find a query example and what it returns.
+Returns the list of sellers that are registered on the account. Below you can find a query example and what it returns. 
+
+> **NOTE!** This resolver was implemented so the developer can debug his application, to check whether registration of a seller worked or not.
 ```graphql
 query {
   getSellerList{
@@ -55,7 +57,7 @@ query {
 
 ## GraphQL mutations
 ### Creating a seller
-In order to create a seller, it's necessary to provide a body with all the mandatory information described on the schema.
+In order to create a seller, it's necessary to provide a body with all the mandatory information described on the schema. As a matter of simplifying this template application, we chose to keep the seller creation on a GraphQL mutation, so it can be set on the front-end, such as an admin panel. It would be possible to have it on the back-end, triggered by a set up button on the admin panel.
 
 Example of mutation and its query variables:
 ```graphql
@@ -73,7 +75,7 @@ mutation ($seller: SellerInput){
 ```json
 {
   "seller":  {
-		"SellerId": "externalsellertest",
+    "SellerId": "externalsellertest",
     "Email": "fabiana.fonseca@vtex.com.br",
 		"Name": "External Seller Test",
     "FulfillmentEndpoint": "http://fabiana--appliancetheme.myvtex.com/my-seller",
