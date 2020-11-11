@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@vtex/clients": "^1.0.3",
+    "@vtex/clients": "^1.0.4",
     "co-body": "^6.0.0",
     "ramda": "^0.25.0"
   },

@@ -233,10 +233,10 @@
     uuid "^3.3.3"
     xss "^1.0.6"
 
-"@vtex/clients@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@vtex/clients/-/clients-1.0.3.tgz#040568f542591d2edef7fb937920cbc33d6c4bb9"
-  integrity sha512-xr5p4Ro5+6uquhznnjY6nZNgBGODW8zQPdpLqTYtfbgSIyuzDLDdNpANwt8phSrzsjkVxN7DZLs0eF5W8vGsQQ==
+"@vtex/clients@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@vtex/clients/-/clients-1.0.4.tgz#8ef6b1170c2b30230888f63f332b081d2c0ebb5b"
+  integrity sha512-E+lx/zNtz6aOPHWzMOuUfthucnlnFuSfaCiqimHnIWvcLmuiz751kTW857pHVjJQZrXKiwfclAc8ubvHQVw4DQ==
 
 "@vtex/node-error-report@^0.0.3":
   version "0.0.3"
@@ -1306,7 +1306,7 @@ setprototypeof@1.2.0:
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.2.0.tgz#66c9a24a73f9fc28cbe66b09fed3d33dcaf1b424"
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
-"stats-lite@github:vtex/node-stats-lite#dist":
+stats-lite@vtex/node-stats-lite#dist:
   version "2.2.0"
   resolved "https://codeload.github.com/vtex/node-stats-lite/tar.gz/1b0d39cc41ef7aaecfd541191f877887a2044797"
   dependencies:
