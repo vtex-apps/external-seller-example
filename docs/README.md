@@ -8,7 +8,7 @@ So you can test it, you can follow the steps below:
 1. Link this application on a development workspace of a VTEX account;
 2. Open the GraphiQL link that is available when the app is successfully linked;
 3. Use the GraphQL IDE to create a seller on the VTEX account;
-4. Make a request to send a SKU suggestion to the marketplace (you can use the SKU Suggestion request in this Postman collection);
+4. Make a request to send a SKU suggestion to the marketplace (you can use the SKU Suggestion request in [this Postman collection](https://www.getpostman.com/collections/37709bb691b50a08348c));
 5. Wait for the suggestion to pass through our matcher and appear as a Received SKU, on VTEX account's admin panel (Admin > Seller > Received SKUs);
 6. At this point, you can approve the SKU so it will appear on the marketplace's store. To do that, it's necessary to select both the category and the brand of the product. In case of not having, you can create it on the Catalog panel;
 7. Wait for the product to be indexed;
