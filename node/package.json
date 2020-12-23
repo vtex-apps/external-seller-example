@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vtex/clients": "^1.0.4",
     "co-body": "^6.0.0",
     "ramda": "^0.25.0"
   },
@@ -8,9 +9,9 @@
     "@types/jest": "^24.0.18",
     "@types/node": "^12.0.0",
     "@types/ramda": "types/npm-ramda#dist",
-    "@vtex/api": "6.33.0",
-    "@vtex/test-tools": "^1.0.0",
-    "typescript": "3.8.3"
+    "@vtex/prettier-config": "^0.3.1",
+    "typescript": "3.9.7",
+    "@vtex/api": "6.37.0"
   },
   "scripts": {
     "lint": "tsc --noEmit --pretty"

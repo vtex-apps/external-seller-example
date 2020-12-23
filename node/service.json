@@ -6,8 +6,36 @@
   "maxReplicas": 4,
   "workers": 1,
   "routes": {
-    "status": {
-      "path": "/_v/status/:code",
+    "fullfilmentSimulation": {
+      "path": "/my-seller/pvt/orderForms/simulation",
+      "public": true
+    },
+    "orderPlacement": {
+      "path": "/my-seller/pvt/orders",
+      "public": true
+    },
+    "orderDispatching": {
+      "path": "/my-seller/pvt/orders/:orderId/fulfill",
+      "public": true
+    },
+    "mkpCancellation": {
+      "path": "/my-seller/pvt/orders/:orderId/cancel",
+      "public": true
+    },
+    "sellerCancellation": {
+      "path": "/my-seller/pvt/orders/seller/cancel",
+      "public": true
+    },
+    "skuSuggestion": {
+      "path": "/my-seller/suggestion/:sellerId/:sellerSkuId",
+      "public": true
+    },
+    "invoice": {
+      "path": "/my-seller/oms/invoice/:marketplaceOrderId",
+      "public": true
+    },
+    "trackingInfo": {
+      "path": "/my-seller/oms/tracking/:marketplaceOrderId",
       "public": true
     }
   }

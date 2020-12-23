@@ -4,12 +4,20 @@ import {
   method,
   Service,
   ServiceContext,
-  RecorderState,
 } from '@vtex/api'
 
 import { Clients } from './clients'
-import { status } from './middlewares/status'
-import { validate } from './middlewares/validate'
+import { fullfilmentSimulation } from './handlers/fullfilmentSimulation'
+import { placeOrder } from './handlers/orderPlacement'
+import { suggestSku } from './handlers/skuSuggestion'
+import { invoiceOrder } from './handlers/invoice'
+import { createSellerOnMarketplace, getSellerList } from './resolvers/seller'
+import { dispatchOrder } from './handlers/orderDispatching'
+import { sendTrackingInformation } from './handlers/tracking'
+import {
+  mkpOrderCancellation,
+  sellerOrderCancellation,
+} from './handlers/orderCancellation'
 
 const TIMEOUT_MS = 800
 
@@ -38,21 +46,46 @@ const clients: ClientsConfig<Clients> = {
 
 declare global {
   // We declare a global Context type just to avoid re-writing ServiceContext<Clients, State> in every handler and resolver
-  type Context = ServiceContext<Clients, State>
-
-  // The shape of our State object found in `ctx.state`. This is used as state bag to communicate between middlewares.
-  interface State extends RecorderState {
-    code: number
-  }
+  type Context = ServiceContext<Clients>
 }
 
 // Export a service that defines route handlers and client options.
 export default new Service({
   clients,
   routes: {
-    // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    status: method({
-      GET: [validate, status],
+    fullfilmentSimulation: method({
+      POST: fullfilmentSimulation,
     }),
+    orderPlacement: method({
+      POST: placeOrder,
+    }),
+    mkpCancellation: method({
+      POST: mkpOrderCancellation,
+    }),
+    sellerCancellation: method({
+      POST: sellerOrderCancellation,
+    }),
+    orderDispatching: method({
+      POST: dispatchOrder,
+    }),
+    skuSuggestion: method({
+      POST: suggestSku,
+    }),
+    invoice: method({
+      POST: invoiceOrder,
+    }),
+    trackingInfo: method({
+      POST: sendTrackingInformation,
+    }),
+  },
+  graphql: {
+    resolvers: {
+      Query: {
+        getSellerList,
+      },
+      Mutation: {
+        createSellerOnMarketplace,
+      },
+    },
   },
 })

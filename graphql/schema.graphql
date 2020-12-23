@@ -1,0 +1,57 @@
+type Query {
+  getSellerList: [Seller]
+}
+
+type Mutation {
+  createSellerOnMarketplace(seller: SellerInput): Seller
+}
+
+input SellerInput {
+  SellerId: String!
+  Name: String!
+  Email: String!
+  Description: String
+  ExchangeReturnPolicy: String
+  DeliveryPolicy: String
+  UseHybridPaymentOptions: Boolean!
+  UserName: String
+  Password: String
+  SecutityPrivacyPolicy: String
+  CNPJ: String
+  CSCIdentification: String!
+  ArchiveId: String
+  UrlLogo: String
+  ProductCommissionPercentage: Float!
+  FreightCommissionPercentage: Float!
+  FulfillmentEndpoint: String!
+  CatalogSystemEndpoint: String!
+  IsActive: Boolean
+  FulfillmentSellerId: String
+  SellerType: Int
+  IsBetterScope: Boolean
+}
+
+type Seller {
+  SellerId: String
+  Name: String
+  Email: String
+  Description: String
+  ExchangeReturnPolicy: String
+  DeliveryPolicy: String
+  UseHybridPaymentOptions: Boolean
+  UserName: String
+  Password: String
+  SecutityPrivacyPolicy: String
+  CNPJ: String
+  CSCIdentification: String
+  ArchiveId: String
+  UrlLogo: String
+  ProductCommissionPercentage: Float
+  FreightCommissionPercentage: Float
+  FulfillmentEndpoint: String
+  CatalogSystemEndpoint: String
+  IsActive: Boolean
+  FulfillmentSellerId: String
+  SellerType: Int
+  IsBetterScope: Boolean
+}

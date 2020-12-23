@@ -1,123 +1,108 @@
+# External Seller Example
 
+This is an example application to build an integration with an external seller. It's important to emphasize that it contains mocked data, but it can be used as the first step towards developing a fully function integration.
 
-# Service Example
+In the following sections, we explain some details regarding the app that's been developed, such as the routes that are available and GraphQL queries and mutations. It's really important for you to read it and make sure that you fully understand what is mandatory to be implemented. We do encourage you to check [our documentation](https://developers.vtex.com/vtex-developer-docs/docs/external-seller-integration-connector) about creating an external seller connector.
 
-A reference app implementing a VTEX IO service with HTTP route handlers.
+So you can test it, you can follow the steps below:
+1. Link this application on a development workspace of a VTEX account;
+2. Open the GraphiQL link that is available when the app is successfully linked;
+3. Use the GraphQL IDE to create a seller on the VTEX account;
+4. Make a request to send a SKU suggestion to the marketplace (you can use the SKU Suggestion request in [this Postman collection](https://www.getpostman.com/collections/37709bb691b50a08348c));
+5. Wait for the suggestion to pass through our matcher and appear as a Received SKU, on VTEX account's admin panel (Admin > Seller > Received SKUs);
+6. At this point, you can approve the SKU so it will appear on the marketplace's store. To do that, it's necessary to select both the category and the brand of the product. In case of not having, you can create it on the Catalog panel;
+7. Wait for the product to be indexed;
+8. Once it's already available on the store, you can test to buy it. By doing that, you'll automatically trigger all the order flow until the Order Placement. After that, you can test the routes that are exposed on this app regarding invoicing, tracking or cancellation.
 
-![Service Example Architecture](https://user-images.githubusercontent.com/18706156/77381360-72489680-6d5c-11ea-9da8-f4f03b6c5f4c.jpg)
+Feel free to contribute to this repo in case of identifying any problems or having suggestions to improve it! :rocket:
 
-We use [**KoaJS**](https://koajs.com/) as the web framework, so you might want to get into that
+## Routes
+There are some routes that need to be implemented on the seller integration, in order for the marketplace to be able to communicate with the external services from the seller. For each route, there is a handler that is responsible for using the External Seller client to establish the communication with the external API. 
 
-We also use the [**node-vtex-api**](https://github.com/vtex/node-vtex-api), a VTEX set of utilities for Node services. You can import this package using NPM from `@vtex/api` (already imported on this project)
+Besides that, some routes were implemented to perform the other way communication, from the seller to the marketplace; an external seller integration has a two way communication. You can check in [this documentation](https://developers.vtex.com/vtex-developer-docs/docs/external-seller-integration-connector) the target of each request that can happen.
 
-- Start from `node/index.ts` and follow the comments and imports :)
+## Handlers
 
-## Recipes
+| **Handler file**            | **Implemented Functions**                          | Use                                                                  |
+|-----------------------------|----------------------------------------------------|----------------------------------------------------------------------|
+| `fulfillmentSimulation.ts`  | `fullfilmentSimulation`                            | This is the most important route when developing an external seller integration. It needs to have high availability, because whenever the marketplace needs to check the current price or inventory, it will use this route. **NOTE**: This route has a 2.5s timeout.                                                                                                                  |
+| `orderCancellation.ts`      |  `mkpOrderCancellation`, `sellerOrderCancellation` | The order cancellation can be done by both: marketplace or seller. In case of being the seller the one that's cancelling, it will use an endpoint from OMS. On the other side, if it's the marketplace, it will send a request to a route that is exposed on this app.                                                                                                                   |
+| `orderDispatching.ts`       | `dispatchOrder`                                    | Responsible for sending information regarding the order dispatch to the marketplace                                                                                                                                           |
+| `orderPlacement.ts`         | `placeOrder`                                       | Once the order is placed on the marketplace, it sends information about it to the seller, so the placement can happen also in the seller side, when it will inform the order ID                                             |
+| `skuSuggestion`             | `suggestSku`                                       | Handles the SKU suggestions that the seller can send to the marketplace, whether to send a new SKU or update one that has already been registered in the marketplace.                                                 |
+| `invoice.ts`                | `invoiceOrder`                                     | Implements the order invoice on the seller side. It has to connect to its external API.                                                                                                                                          |
+| `tracking.ts`               | `sendTrackingInformation`                          | It uses the same endpoint as the `invoice` method, but sends different information. Tracking information can only be sent once the order was invoiced.                                                                 |
 
-### Defining routes on _service.json_ 
-```json
-{
-  "memory": 256,
-  "ttl": 10,
-  "timeout": 2,
-  "minReplicas": 2,
-  "maxReplicas": 4,
-  "routes": {
-    "status": {
-      "path": "/_v/status/:code",
-      "public": true
-    }
+---
+
+## Utils
+This boilerplate uses some utils functions in order to have a cleaner code. 
+> **NOTE!** It's important to pay attention that some of the utils functions are used with only one purpose: provide mocked data as the response bodies. **Those functions are not going to be used on a real integration.**
+
+## GraphQL queries
+### Get list of sellers
+Returns the list of sellers that are registered on the account. Below you can find a query example and what it returns. 
+
+> **NOTE!** This resolver was implemented so the developer can debug his application, to check whether registration of a seller worked or not.
+```graphql
+query {
+  getSellerList{
+    SellerId
+    Name
+    FulfillmentEndpoint
+    CatalogSystemEndpoint
   }
 }
 ```
 
-The `service.json` file that sits on the root of the `node` folder holds informations about this service, like the maximum timeout and number of replicas, what might be discontinued on the future, but also **sets its routes**. 
-
-Koa uses the [path-to-regexp](https://github.com/pillarjs/path-to-regexp) format for defining routes and, as seen on the example, we use the `:code` notation for declaring a **route param** named code, in this case. A HTTP request for `https://{{workspace}}--{{account}}.myvtex.com/_v/status/500` will match the route we've defined. 
-
-For cach _key_ on the `routes` object, there should be a **corresponding entry** on the exported Service object on `node/index.ts`, this will hook your code to a specific route.
-
-### Access Control
-You can also provide a `public` option for each route. If `true`, that resource will be reachable for everyone on the internet. If `false`, VTEX credentials will be requested as well.
-
-Another way of controlling access to specific routes is using **ReBACs (Resource-based access)**, that supports more robust configuration. You can read more [on this document](https://docs.google.com/document/d/1ZxNHMFIXfXz3BgTN9xyrHL3V5dYz14wivYgQjRBZ6J8/edit#heading=h.z7pad3qd2qw7) (VTEX only).
-
-#### Query String
-For `?accepting=query-string`, you **don't need to declare anything**, as any query provided to the URL will already be available for you to use on the code as `ctx.query`, already parsed as an object, or `ctx.queryString`, taken directly from the URL as a string.
-
-#### HTTP methods
-When you define a route on the `service.json`, your NodeJS handlers for that route will be triggered  **on every HTTP method** (GET, POST, PUT...), so, if you need to handle them separately you need to implement a "sub-router". Fortunately, the _node-vtex-api_ provides a helper function `method`, exported from `@vtex/api`, to accomplish that behaviour. Instead of passing your handlers directly to the corresponding route on `index.ts`, you pass a `method` call passing **an object with the desired method as key and one handler as its corresponding value**. Check this example:
-```typescript
-import { method } from '@vtex/api'
-...
-
-export default new Service<Clients, State>({
-  clients,
-  routes: {
-    status: method({
-      GET: statusGetHandler,
-      POST: statusPostHandler,
-    }),
-  },
-})
-```
-
-### Throwing errors
-
-When building a HTTP service, we should follow HTTP rules regarding data types, cache, authorization, and status code. Our example app sets a `ctx.status` value that will be used as a HTTP status code return value, but often we also want to give proper information about errors as well.
-
-The **node-vtex-api** already exports a handful of **custom error classes** that can be used for that purpose, like the `NotFoundError`. You just need to throw them inside one of the the route handlers that the appropriate response will be sent to the server.
-
-```typescript
-import { UserInputError } from '@vtex/api'
-
-export async function validate(ctx: Context, next: () => Promise<any>) {
-  const { code } = ctx.vtex.route.params
-  if (isNaN(code) || code < 100 || code > 600) {
-    throw new UserInputError('Code must be a number between 100 and 600')
+```json
+{
+  "data": {
+    "getSellerList": [
+      {
+        "SellerId": "externalsellertest",
+        "Name": "External Seller Test",
+        "FulfillmentEndpoint": "http://fabiana--pilateslovers.myvtex.com/my-seller",
+        "CatalogSystemEndpoint": "http://fabiana--pilateslovers.myvtex.com/my-seller"
+      }
+    ]
   }
-...
+}
 ```
 
-You can check all the available errors [here](https://github.com/vtex/node-vtex-api/tree/fd6139349de4e68825b1074f1959dd8d0c8f4d5b/src/errors), but some are not useful for just-HTTP services. Check the most useful ones:
+> It's important to know that there are other fields for each seller, you can check them out on the Documentation tab, on _GraphiQL_ or in the `schema.graphql`.
 
-|Error Class | HTTP Code |
-|--|:--:|
-| `UserInputError` | 400 |
-| `AuthenticationError` | 401 |
-| `ForbiddenError` | 403 |
-| `NotFoundError` | 404 |
+## GraphQL mutations
+### Creating a seller
+In order to create a seller, it's necessary to provide a body with all the mandatory information described on the schema. As a matter of simplifying this template application, we chose to keep the seller creation on a GraphQL mutation, so it can be set on the front-end, such as an admin panel. It would be possible to have it on the back-end, triggered by a set up button on the admin panel.
 
-You can also **create your custom error**, just see how it's done above ;)
-
-### Reading a JSON body
-
-When writing POST or PUT handlers, for example, often you need to have access to the **request body** that comes as a JSON format, which is not provided directly by the handler function.
-
-For this, you have to use the [co-body](https://www.npmjs.com/package/co-body) package that will parse the request into a readable JSON object, used as below: 
-```typescript
-import { json } from 'co-body'
-export async function method(ctx: Context, next: () => Promise<any>) {
-    const body = await json(ctx.req)
+Example of mutation and its query variables:
+```graphql
+mutation ($seller: SellerInput){
+  createSellerOnMarketplace(seller: $seller) {
+    SellerId
+    Name
+    Email
+    FulfillmentEndpoint
+    CatalogSystemEndpoint
+  }
+}
 ```
 
-### Other example apps
+```json
+{
+  "seller":  {
+    "SellerId": "externalsellertest",
+    "Email": "fabiana.fonseca@vtex.com.br",
+    "Name": "External Seller Test",
+    "FulfillmentEndpoint": "http://fabiana--appliancetheme.myvtex.com/my-seller",
+    "CatalogSystemEndpoint": "http://fabiana--appliancetheme.myvtex.com/my-seller",
+    "UseHybridPaymentOptions": false,
+    "CSCIdentification": "externalsellertest",
+    "ProductCommissionPercentage": 0,
+    "FreightCommissionPercentage": 0
+  }
+}
+```
 
-We use Node services across all VTEX, and there are a lot inspiring examples. If you want to dive deeper on learning about this subject, don't miss those internal apps: [builder-hub](https://github.com/vtex/builder-hub) or [store-sitemap](https://github.com/vtex-apps/store-sitemap)
-
-
-## Testing
-
-`@vtex/test-tools` and `@types/jest` should be installed on `./node` package as `devDependencies`.
-
-Run `vtex test` and [Jest](https://jestjs.io/) will do its thing.
-
-Check the `node/__tests__/simple.test.ts` test case and also [Jest's Documentation](https://jestjs.io/docs/en/getting-started).
-
-## Splunk Dashboard
-
-We have an (for now, VTEX-only, internal) Splunk dashboard to show all metrics related to your app. You can find it [here](https://splunk7.vtex.com/en-US/app/vtex_colossus/node_app_metrics).
-
-After linking this app and making some requests, you can select `vtex.service-example` and see the metrics for your app. **Don't forget to check the box Development, as you are linking your app in a development workspace**.
-
-For convenience, the link for the current version: https://splunk7.vtex.com/en-US/app/vtex_colossus/node_app_metrics?form.time.earliest=-30m%40m&form.time.latest=%40m&form.picked_context=false&form.picked_region=aws-us-east-*&form.picked_service=vtex.service-example
+> The fields that are on the query variables are the mandatory ones, but there are other fields, which you can check on the **Docs** tab, on the top right of GraphiQL.
