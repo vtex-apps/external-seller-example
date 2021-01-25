@@ -105,7 +105,7 @@ export interface SimulationInput {
   country: string | null
   items: Item[]
   priceTables: any[]
-  marketkingData: any
+  marketingData: any
   clientProfileData: ClientProfileDetail | null
   shippingData: ShippingData | null
   paymentData: any
