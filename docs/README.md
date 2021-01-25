@@ -8,7 +8,7 @@ So you can test it, you can follow the steps below:
 1. Link this application on a development workspace of a VTEX account;
 2. Open the GraphiQL link that is available when the app is successfully linked;
 3. Use the GraphQL IDE to create a seller on the VTEX account;
-4. Make a request to send a SKU suggestion to the marketplace (you can use the SKU Suggestion request in this Postman collection);
+4. Make a request to send a SKU suggestion to the marketplace (you can use the SKU Suggestion request in [this Postman collection](https://www.getpostman.com/collections/37709bb691b50a08348c));
 5. Wait for the suggestion to pass through our matcher and appear as a Received SKU, on VTEX account's admin panel (Admin > Seller > Received SKUs);
 6. At this point, you can approve the SKU so it will appear on the marketplace's store. To do that, it's necessary to select both the category and the brand of the product. In case of not having, you can create it on the Catalog panel;
 7. Wait for the product to be indexed;
@@ -29,7 +29,8 @@ Besides that, some routes were implemented to perform the other way communicatio
 | `orderCancellation.ts`      |  `mkpOrderCancellation`, `sellerOrderCancellation` | The order cancellation can be done by both: marketplace or seller. In case of being the seller the one that's cancelling, it will use an endpoint from OMS. On the other side, if it's the marketplace, it will send a request to a route that is exposed on this app.                                                                                                                   |
 | `orderDispatching.ts`       | `dispatchOrder`                                    | Responsible for sending information regarding the order dispatch to the marketplace                                                                                                                                           |
 | `orderPlacement.ts`         | `placeOrder`                                       | Once the order is placed on the marketplace, it sends information about it to the seller, so the placement can happen also in the seller side, when it will inform the order ID                                             |
-| `skuSuggestion`             | `suggestSku`                                       | Handles the SKU suggestions that the seller can send to the marketplace, whether to send a new SKU or update one that has already been registered in the marketplace.                                                 || `invoice.ts`                | `invoiceOrder`                                     | Implements the order invoice on the seller side. It has to connect to its external API                                                                                                                                          |
+| `skuSuggestion`             | `suggestSku`                                       | Handles the SKU suggestions that the seller can send to the marketplace, whether to send a new SKU or update one that has already been registered in the marketplace.                                                 |
+| `invoice.ts`                | `invoiceOrder`                                     | Implements the order invoice on the seller side. It has to connect to its external API.                                                                                                                                          |
 | `tracking.ts`               | `sendTrackingInformation`                          | It uses the same endpoint as the `invoice` method, but sends different information. Tracking information can only be sent once the order was invoiced.                                                                 |
 
 ---

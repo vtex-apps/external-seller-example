@@ -8,3 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Fixed
 - Body request types on Fullfilment Simulation endpoint
+
+## [0.1.0] - 2020-12-23
+
+### Added
+
+- Initial example of External Seller integration
