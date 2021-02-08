@@ -1,3 +1,5 @@
+import { ClientProfileDetail } from '@vtex/clients'
+
 export interface SimulationResponse {
   country: string
   items: SimulationItem[]
@@ -100,23 +102,34 @@ interface Address {
 export interface SimulationInput {
   postalCode: string
   geoCoordinates: string[]
-  country: string
-  items: CartItem[]
+  country: string | null
+  items: Item[]
+  priceTables: any[]
+  marketingData: any
+  clientProfileData: ClientProfileDetail | null
+  shippingData: ShippingData | null
+  paymentData: any
+  orderFormId: string | null
+  isCheckedIn: boolean
+  storeId: string | null
+  selectedSla: string
+  checkedInPickupPointId: string | null
 }
 
-interface CartItem {
+interface ShippingData {
+  state: string
+  city: string
+  neighborhood: string
+  street: string
+  isFOB: boolean
+  selectedAddresses: any[]
+  logisticsInfo: LogisticsInfo[]
+}
+
+interface Item {
   id: string
   seller: string
-  sku: string
-  ean: string
-  refId: string | null
-  unitMultiplier: number
-  measurementUnit: string
-  targetPrice: number
-  itemPrice: number
   quantity: number
-  discountPrice: number | null
-  dockId: string
-  freightPrice: number
-  brandId: string
+  parentItemIndex: any
+  parentAssembluBinding: any
 }
